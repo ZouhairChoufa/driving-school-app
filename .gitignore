@@ -1,0 +1,31 @@
+Virtual Environment
+venv/
+auto_ecole/
+
+Python cache files
+pycache/
+*.pyc
+*.pyo
+*.pyd
+
+PyInstaller generated files
+build/
+dist/
+*.spec
+
+Database file
+Do not commit the database itself, only the code to create it.
+driving_school.db
+*.db
+*.sqlite
+*.sqlite3
+
+User-uploaded images
+The 'images' folder is created at runtime to store client/employee photos.
+We don't want to commit personal data to the repository.
+images/
+
+IDE and OS specific files
+.idea/
+.vscode/
+*.DS_Store
