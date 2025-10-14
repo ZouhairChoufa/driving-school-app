@@ -1,0 +1,6 @@
+customtkinter
+Pillow
+openpyxl
+tkcalendar
+arabic_reshaper
+python-bidi

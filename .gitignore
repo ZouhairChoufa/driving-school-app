@@ -1,0 +1,21 @@
+Ignore the Python virtual environment
+/driving_school/
+
+Ignore Python cache files
+pycache/
+*.pyc
+*.pyo
+*.pyd
+
+Ignore IDE-specific files
+.vscode/
+.idea/
+
+Ignore the database file (it will be generated on first run)
+driving_school.db
+*.sqlite3
+
+Ignore generated user content and logs
+images/
+error.log
+*.html
