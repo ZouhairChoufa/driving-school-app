@@ -5,12 +5,8 @@ import traceback
 import customtkinter
 from tkinter import messagebox
 import sqlite3 
-
-# Ajoute le dossier racine au chemin de recherche de Python pour trouver le module 'views'
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
-
 import database
-# Les importations pointent maintenant correctement vers le sous-dossier 'views'
 from views.dashboord_view import DashboardFrame
 from views.clients_view import ClientsFrame
 from views.admin_view import AdminFrame
@@ -23,14 +19,11 @@ class App(customtkinter.CTk):
         self.center_window(600, 500)
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
-
         self.navigation_frame = None
         self.content_frame = None
         self.login_frame = None
         self.register_frame = None
         self.current_user_role = None
-        
-        # Définir les polices pour le texte arabe à utiliser dans toute l'application
         self.font_arabic_bold = customtkinter.CTkFont(family="Arial", size=16, weight="bold")
         self.font_arabic_large_bold = customtkinter.CTkFont(family="Arial", size=24, weight="bold")
         self.font_arabic_nav_title = customtkinter.CTkFont(family="Arial", size=20, weight="bold")

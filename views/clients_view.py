@@ -106,7 +106,7 @@ class ClientsFrame(customtkinter.CTkFrame):
         data_to_export = []
         for client in clients_data:
             client_list = list(client)
-            del client_list[6] # Remove image_path which is not needed in excel
+            del client_list[6] 
             data_to_export.append(client_list)
 
         export_to_excel(headers, data_to_export, default_filename="clients_export.xlsx")

@@ -9,18 +9,12 @@ class DashboardFrame(customtkinter.CTkFrame):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1) 
 
-        # Define a specific font for the large welcome message
         font_arabic_welcome = customtkinter.CTkFont(family="Arial", size=32, weight="bold")
-        
         company_name_stat = "مرحبا بكم في مؤسسة عبد الكريم لتعليم السياقة"
         
         total_clients, total_employees = database.get_dashboard_stats()
-
-        # Welcome Label with the correct font
         welcome_label = customtkinter.CTkLabel(self, text=company_name_stat, font=font_arabic_welcome)
         welcome_label.grid(row=0, column=0, pady=(40, 20), padx=20)
-
-        # Stats Cards
         stats_frame = customtkinter.CTkFrame(self, fg_color="transparent")
         stats_frame.grid(row=1, column=0, pady=20)
         stats_frame.grid_columnconfigure((0, 1), weight=0)
