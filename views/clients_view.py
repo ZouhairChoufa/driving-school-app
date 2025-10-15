@@ -31,7 +31,7 @@ class ClientsView(QWidget):
         self.btn_add_client.clicked.connect(self.add_new_client)
         self.btn_upload_client_image.clicked.connect(self.upload_client_image)
         self.search_input.textChanged.connect(self.refresh_client_list)
-        self.btn_export.clicked.connect(self.export_clients_to_excel) # Connect export button
+        self.btn_export.clicked.connect(self.export_clients_to_excel) 
 
         self.refresh_client_list()
 
@@ -243,7 +243,6 @@ class ClientsView(QWidget):
         details_grid.setSpacing(4)
         details_grid.setColumnStretch(0, 1)
         
-# --- FIX: Replaced the layout logic with the new inline version ---
         details_grid.addWidget(QLabel(cin, objectName="ClientDetailsLabel", alignment=Qt.AlignmentFlag.AlignLeft), 0, 0)
         details_grid.addWidget(QLabel("البطاقة الوطنية :", objectName="ClientDetailsLabel", alignment=Qt.AlignmentFlag.AlignRight), 0, 1)
 
@@ -258,7 +257,6 @@ class ClientsView(QWidget):
 
         details_grid.addWidget(QLabel(lic_type, objectName="ClientDetailsLabel", alignment=Qt.AlignmentFlag.AlignLeft), 4, 0)
         details_grid.addWidget(QLabel("نوع الرخصة :", objectName="ClientDetailsLabel", alignment=Qt.AlignmentFlag.AlignRight), 4, 1)
-        # --- End of FIX ---
 
         details_layout.addWidget(grid_widget)
         details_layout.addStretch()
@@ -296,25 +294,21 @@ class ClientsView(QWidget):
             return
 
         dialog = EditClientDialog(client_data, self)
-        
-        # The exec() method shows the dialog and waits until the user closes it.
-        # It returns True if the user clicked "Save" (accepted), and False otherwise.
+
         if dialog.exec():
             updated_data = dialog.get_updated_data()
             try:
                 db.update_client(client_id, updated_data)
                 QMessageBox.information(self, "Success", "Client details updated successfully.")
-                self.data_changed_signal.emit() # Refresh the UI
+                self.data_changed_signal.emit() 
             except Exception as e:
                 QMessageBox.critical(self, "Database Error", f"Could not update client: {e}")
 
     def print_client_contract(self, client_id):
         client_data = db.get_client_by_id(client_id)
-        # This assumes get_admin_profile returns a dictionary-like object or None
         admin_profile = db.get_admin_profile()
-        company_details = {'name': 'Auto Ecole Abd El Karim'} # Default
+        company_details = {'name': 'Auto Ecole Abd El Karim'} 
         if admin_profile:
-            # Assuming admin_profile tuple indices for name and other details
             company_details['name'] = admin_profile[6] 
 
         if client_data:
@@ -327,7 +321,6 @@ class ClientsView(QWidget):
         clients_data = db.get_clients()
         data_to_export = []
         for c in clients_data:
-            # Corresponds to headers: id, first, last, bday, cin, phone, addr, lic_type
             data_to_export.append([c[0], c[1], c[2], c[9], c[10], c[4], c[3], c[5]])
             
         utils.export_to_excel_qt(headers, data_to_export, "clients_export.xlsx", self)

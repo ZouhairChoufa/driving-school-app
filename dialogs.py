@@ -5,20 +5,18 @@ from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QGridLayout, QLabel, QLineEdi
 from PyQt6.QtGui import QFont, QIcon
 from PyQt6.QtCore import Qt, QDate
 import utils
-from utils import resource_path # --- NEW: Import the helper function ---
+from utils import resource_path 
 
 class EditClientDialog(QDialog):
     """A dialog window for editing an existing client's details."""
     def __init__(self, client_data, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Edit Client Details")
-        # --- FIX: Use resource_path for the icon ---
         self.setWindowIcon(QIcon(resource_path("auto-ecole.ico")))
         self.setFixedWidth(550)
         self.setMaximumHeight(700)
         self.new_image_path = None
         
-        # Unpack client data, adding a placeholder for the unused password column
         self.client_id, first, last, addr, phone, lic_type, self.original_image_path, _, _, bday, cin, h_prac, h_theo, v_mat, monitor, exam_date, *_ = client_data
         
         main_layout = QVBoxLayout(self)
@@ -42,7 +40,7 @@ class EditClientDialog(QDialog):
         try:
             self.client_inputs['birthday'].setDate(QDate.fromString(bday, "dd/MM/yyyy"))
             self.client_inputs['exam_success_date'].setDate(QDate.fromString(exam_date, "dd/MM/yyyy"))
-        except: # Fallback if date is invalid
+        except: 
             self.client_inputs['birthday'].setDate(QDate.currentDate())
             self.client_inputs['exam_success_date'].setDate(QDate.currentDate())
 
@@ -113,7 +111,6 @@ class EditClientDialog(QDialog):
     def upload_image(self):
         file_name, _ = QFileDialog.getOpenFileName(self, "Select Image", "", "Image Files (*.png *.jpg *.jpeg)")
         if file_name:
-            # Generate a more unique filename to prevent overwrites
             _, file_extension = os.path.splitext(file_name)
             new_filename = f"client_{self.client_id}_{QDate.currentDate().toString('yyyyMMdd')}{file_extension}"
             
@@ -125,7 +122,6 @@ class EditEmployeeDialog(QDialog):
     def __init__(self, emp_data, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Edit Employee Details")
-        # --- FIX: Use resource_path for the icon ---
         self.setWindowIcon(QIcon(resource_path("auto-ecole.ico")))
         self.setMinimumWidth(500)
 
@@ -183,16 +179,15 @@ class EditAdminDialog(QDialog):
     def __init__(self, profile_data, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Edit Company Profile")
-        # --- FIX: Use resource_path for the icon ---
         self.setWindowIcon(QIcon(resource_path("auto-ecole.ico")))
         self.setMinimumWidth(500)
         self.new_image_path = None
 
         if profile_data:
             _, fname, lname, phone, addr, self.original_image_path, cname, cid, fax, email, _ = profile_data
-        else: # Handle case where no profile exists yet
+        else:
             fname, lname, phone, addr, self.original_image_path, cname, cid, fax, email = ("",)*9
-            cid = 5704 # Default company ID
+            cid = 5704 
             cname = "Auto Ecole Abd El Karim"
 
         main_layout = QVBoxLayout(self)

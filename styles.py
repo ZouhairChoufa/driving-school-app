@@ -45,7 +45,7 @@ QMainWindow {
 }
 
 /* --- General Content Styles --- */
-.TitleLabel, #TitleLabel { /* Allow using as property or object name */
+.TitleLabel, #TitleLabel { 
     font-size: 18px;
     font-weight: bold;
     color: #2c3e50;
@@ -157,11 +157,10 @@ QDialog {
     font-weight: normal;
     text-decoration: underline;
 }
-/* --- FIX: Added hover effect for the link button --- */
+/* --- Style of the link button --- */
 #AuthWindow #LinkButton:hover {
-    color: #e74c3c; /* Red color on hover */
+    color: #e74c3c; 
 }
-/* --- End of FIX --- */
 """
 
 DARK_STYLE = """
@@ -206,7 +205,8 @@ QMainWindow {
 #Sidebar QPushButton:hover {
     background-color: #5dade2;
 }
-#Sidebar QPushButton:checked { /* Style for the active button */
+/* Style for the active button */
+#Sidebar QPushButton:checked {
     background-color: #85c1e9;
     color: #2c3e50;
 }
@@ -339,10 +339,10 @@ QDialog {
     font-weight: normal;
     text-decoration: underline;
 }
-/* --- FIX: Added hover effect for the link button --- */
+
 #AuthWindow #LinkButton:hover {
-    color: #e74c3c; /* Red color on hover */
+    color: #e74c3c;
 }
-/* --- End of FIX --- */
+
 """
 

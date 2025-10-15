@@ -6,16 +6,12 @@ class DashboardView(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setObjectName("DashboardPage")
-
-        # Main container for this view
         content_widget = QFrame()
         content_widget.setProperty("class", "card")
         
         layout = QVBoxLayout(self)
         layout.addWidget(content_widget)
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
-
-        # Content Layout
         content_layout = QVBoxLayout(content_widget)
         
         welcome = QLabel("مرحبا بكم في مؤسسة عبد الكريم لتعليم السياقة", objectName="WelcomeLabel")
@@ -23,20 +19,6 @@ class DashboardView(QWidget):
         
         stats_layout = QHBoxLayout()
         stats_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        
-        # # Client Stats
-        # client_stat_layout = QVBoxLayout()
-        # client_stat_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        # self.lbl_total_clients_num = QLabel("0", objectName="StatNumber")
-        # client_stat_layout.addWidget(QLabel("Total Clients", objectName="StatLabel"))
-        # client_stat_layout.addWidget(self.lbl_total_clients_num)
-        
-        # # Employee Stats
-        # employee_stat_layout = QVBoxLayout()
-        # employee_stat_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        # self.lbl_total_employees_num = QLabel("0", objectName="StatNumber")
-        # employee_stat_layout.addWidget(QLabel("Total Employees", objectName="StatLabel"))
-        # employee_stat_layout.addWidget(self.lbl_total_employees_num)
         
         self.setStyleSheet("""
             /* Style for the main container boxes */
@@ -71,14 +53,12 @@ class DashboardView(QWidget):
                 qproperty-alignment: 'AlignCenter';
             }
         """)
-        
-        # --- Client Stats ---
+
         client_stat_layout = QVBoxLayout()
         self.lbl_total_clients_num = QLabel("0", objectName="StatNumber")
         client_stat_layout.addWidget(QLabel("Total Clients", objectName="StatLabel"))
         client_stat_layout.addWidget(self.lbl_total_clients_num)
-        
-        # --- Employee Stats ---
+
         employee_stat_layout = QVBoxLayout()
         self.lbl_total_employees_num = QLabel("0", objectName="StatNumber")
         employee_stat_layout.addWidget(QLabel("Total Employees", objectName="StatLabel"))

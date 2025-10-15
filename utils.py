@@ -2,7 +2,7 @@ import os
 import shutil
 import webbrowser
 import re
-import sys # --- NEW: Required for the path function ---
+import sys 
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
 from PIL import Image
 from datetime import datetime
@@ -54,17 +54,13 @@ def export_to_excel_qt(headers, data, default_filename, parent):
     except Exception as e:
         QMessageBox.critical(parent, "Export Failed", f"An error occurred: {e}")
 
-# --- NEW: Function to handle correct asset paths for PyInstaller ---
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
-
     return os.path.join(base_path, relative_path)
-# --- End of NEW ---
 
 def copy_image_to_data_folder(source_path, fixed_filename=None):
     """Copies an image to the 'images' directory and returns the new path."""
@@ -105,10 +101,8 @@ def validate_and_format_date(date_string):
 
 def generate_client_contract(client_data, company_details):
     if not client_data: return
-    # Use index-based access for robustness
     client_id, fname, lname, address, phone, license_type, _, company_name, company_id, bday, cin, h_prac, h_theo, v_mat, monitor, exam_date = client_data
     
-    # Ensure company_details is a dictionary
     if company_details:
         comp_details_dict = {
             'name': company_details[6],

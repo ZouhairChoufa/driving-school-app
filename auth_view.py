@@ -7,7 +7,6 @@ import database as db
 
 class AuthWindow(QDialog):
     login_successful = pyqtSignal(str)
-    # --- NEW: Signal to notify when the theme is changed ---
     theme_changed = pyqtSignal(str)
 
     def __init__(self, parent=None):
@@ -19,7 +18,7 @@ class AuthWindow(QDialog):
 
         main_layout = QVBoxLayout(self)
         self.stacked_widget = QStackedWidget()
-        main_layout.addWidget(self.stacked_widget, 1) # Give stack view stretch priority
+        main_layout.addWidget(self.stacked_widget, 1) 
 
         login_widget = self._create_login_widget()
         register_widget = self._create_register_widget()
@@ -27,17 +26,14 @@ class AuthWindow(QDialog):
         self.stacked_widget.addWidget(login_widget)
         self.stacked_widget.addWidget(register_widget)
         
-        # --- NEW: Create and add the theme switcher at the bottom ---
         bottom_layout = QHBoxLayout()
         theme_combo = QComboBox()
         theme_combo.addItems(["Light", "Dark"])
-        theme_combo.currentTextChanged.connect(self.theme_changed.emit) # Emit the signal
+        theme_combo.currentTextChanged.connect(self.theme_changed.emit) 
         
         bottom_layout.addWidget(theme_combo)
-        bottom_layout.addStretch() # Push combo box to the left
+        bottom_layout.addStretch() 
         main_layout.addLayout(bottom_layout)
-        # --- End of NEW ---
-
 
     def _create_login_widget(self):
         container = QFrame()

@@ -9,19 +9,16 @@ def setup_database():
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
 
-    # Create users table
     cursor.execute('''CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY, first_name TEXT NOT NULL, last_name TEXT NOT NULL,
         username TEXT NOT NULL UNIQUE, company_id TEXT NOT NULL,
         password_hash TEXT NOT NULL, role TEXT NOT NULL
     )''')
-    
-    # Existing tables...
+
     cursor.execute('''CREATE TABLE IF NOT EXISTS clients (
         id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT, address TEXT, phone TEXT, 
         license_type TEXT, image_path TEXT, company_name TEXT, company_id INTEGER)''')
-    
-    # CHANGED: Added birthday and cin to the employees table schema
+
     cursor.execute('''CREATE TABLE IF NOT EXISTS employees (
         id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT, birthday TEXT, cin TEXT, phone TEXT, address TEXT, image_path TEXT)''')
     
@@ -38,7 +35,6 @@ def setup_database():
         except Exception as e:
             print(f"Could not add column {column} to {table}: {e}")
 
-    # Safely add columns for clients table
     add_column_if_not_exists("clients", "birthday", "TEXT")
     add_column_if_not_exists("clients", "cin", "TEXT")
     add_column_if_not_exists("clients", "hours_practice", "INTEGER")
@@ -46,20 +42,15 @@ def setup_database():
     add_column_if_not_exists("clients", "vehicle_matricule", "TEXT")
     add_column_if_not_exists("clients", "exam_success_date", "TEXT")
     add_column_if_not_exists("clients", "monitor_name", "TEXT") 
-    
-    # CHANGED: Safely add new columns for employees table
     add_column_if_not_exists("employees", "birthday", "TEXT")
     add_column_if_not_exists("employees", "cin", "TEXT")
-
-    # Safely add columns for admin_profile table
     add_column_if_not_exists("admin_profile", "fax", "TEXT")
     add_column_if_not_exists("admin_profile", "email", "TEXT")
     add_column_if_not_exists("admin_profile", "password_hash", "TEXT")
 
     conn.commit()
     conn.close()
-
-# --- User and Login Functions ---
+    
 def check_if_admin_exists(company_id):
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
@@ -75,7 +66,7 @@ def create_user(first_name, last_name, username, company_id, password):
     conn = sqlite3.connect(DB_FILE)
     try:
         conn.execute("INSERT INTO users (first_name, last_name, username, company_id, password_hash, role) VALUES (?, ?, ?, ?, ?, ?)", 
-                     (first_name, last_name, username, company_id, hashed_password, role))
+                    (first_name, last_name, username, company_id, hashed_password, role))
         conn.commit()
     finally:
         conn.close()
@@ -102,7 +93,6 @@ def check_login(username, password):
             return role
     return None
 
-# --- Admin Profile Functions ---
 def get_admin_profile():
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
@@ -129,7 +119,6 @@ def update_admin_profile(data):
     conn.commit()
     conn.close()
 
-# --- Client Functions ---
 def get_clients(search_term=""):
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
@@ -153,7 +142,7 @@ def get_client_by_id(client_id):
 def add_client(data):
     conn = sqlite3.connect(DB_FILE)
     conn.execute("INSERT INTO clients (first_name, last_name, address, birthday, cin, phone, hours_practice, hours_theory, vehicle_matricule, monitor_name, exam_success_date, license_type, image_path, company_name, company_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                 (data['first_name'], data['last_name'], data['address'], data['birthday'], data['cin'], data['phone'], data['hours_practice'], data['hours_theory'], data['vehicle_matricule'], data['monitor_name'], data['exam_success_date'], data['license_type'], data['image_path'], data['company_name'], data['company_id']))
+                (data['first_name'], data['last_name'], data['address'], data['birthday'], data['cin'], data['phone'], data['hours_practice'], data['hours_theory'], data['vehicle_matricule'], data['monitor_name'], data['exam_success_date'], data['license_type'], data['image_path'], data['company_name'], data['company_id']))
     conn.commit()
     conn.close()
 
@@ -174,21 +163,18 @@ def update_client(client_id, data):
 def delete_client(client_id):
     conn = sqlite3.connect(DB_FILE); conn.execute("DELETE FROM clients WHERE id=?", (client_id,)); conn.commit(); conn.close()
 
-# --- Employee Functions ---
 def get_employees():
     conn = sqlite3.connect(DB_FILE); data = conn.execute("SELECT * FROM employees").fetchall(); conn.close(); return data
 
 def get_employee_by_id(emp_id):
     conn = sqlite3.connect(DB_FILE); data = conn.execute("SELECT * FROM employees WHERE id=?", (emp_id,)).fetchone(); conn.close(); return data
 
-# CHANGED: Updated to insert new employee fields
 def add_employee(data):
     conn = sqlite3.connect(DB_FILE)
     conn.execute("INSERT INTO employees (first_name, last_name, birthday, cin, phone, address, image_path) VALUES (?, ?, ?, ?, ?, ?, ?)", 
                  (data['first_name'], data['last_name'], data['birthday'], data['cin'], data['phone'], data['address'], data['image_path']))
     conn.commit(); conn.close()
 
-# CHANGED: Updated to modify new employee fields
 def update_employee(emp_id, data):
     conn = sqlite3.connect(DB_FILE)
     sql = "UPDATE employees SET first_name=?, last_name=?, birthday=?, cin=?, phone=?, address=?"
@@ -205,7 +191,6 @@ def update_employee(emp_id, data):
 def delete_employee(emp_id):
     conn = sqlite3.connect(DB_FILE); conn.execute("DELETE FROM employees WHERE id=?", (emp_id,)); conn.commit(); conn.close()
 
-# --- Dashboard Function ---
 def get_dashboard_stats():
     conn = sqlite3.connect(DB_FILE)
     total_clients = conn.execute("SELECT COUNT(*) FROM clients").fetchone()[0]
