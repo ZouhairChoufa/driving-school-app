@@ -6,14 +6,13 @@ from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QHBoxLayout,
 from PyQt6.QtGui import QFont, QIcon
 from PyQt6.QtCore import Qt
 
-# Import views and styles
 from views.dashboard_view import DashboardView
 from views.clients_view import ClientsView
 from views.admin_view import AdminView
-from auth_view import AuthWindow # Corrected import path
+from auth_view import AuthWindow 
 from styles import LIGHT_STYLE, DARK_STYLE
 import database as db
-from utils import resource_path # --- NEW: Import the helper function ---
+from utils import resource_path 
 
 class MainWindow(QMainWindow):
     def __init__(self, app, user_role):
@@ -22,11 +21,8 @@ class MainWindow(QMainWindow):
         self.user_role = user_role
 
         self.setWindowTitle("Gestion - Auto Ecole Abd El Karim")
-        # --- FIX: Use resource_path for the icon ---
         self.setWindowIcon(QIcon(resource_path("auto-ecole.ico")))
         self.setGeometry(100, 100, 1200, 800)
-        
-        # db.setup_database()
 
         main_widget = QWidget()
         self.setCentralWidget(main_widget)
@@ -65,18 +61,15 @@ class MainWindow(QMainWindow):
         school_title.setFont(QFont("Arial", 12))
 
         self.btn_dashboard = QPushButton("Dashboard")
-        # --- FIX: Use resource_path for the icon ---
         self.btn_dashboard.setIcon(QIcon(resource_path("icons/dashboard.svg")))
         self.btn_dashboard.setCursor(Qt.CursorShape.PointingHandCursor)
         
         self.btn_clients = QPushButton("Clients")
-        # --- FIX: Use resource_path for the icon ---
         self.btn_clients.setIcon(QIcon(resource_path("icons/clients.svg")))
         self.btn_clients.setCursor(Qt.CursorShape.PointingHandCursor)
         
         if self.user_role == 'Admin':
             self.btn_admin = QPushButton("Admin")
-            # --- FIX: Use resource_path for the icon ---
             self.btn_admin.setIcon(QIcon(resource_path("icons/admin.svg")))
             self.btn_admin.setCursor(Qt.CursorShape.PointingHandCursor)
         else:
@@ -150,13 +143,10 @@ if __name__ == '__main__':
 
     auth_window = AuthWindow()
     auth_window.theme_changed.connect(change_auth_theme)
-    
-    # --- FIX: Use a mutable object (like a list) to store the role ---
-    # This avoids the nonlocal binding issue in nested functions.
+
     login_info = {'role': ""} 
     def on_login(role):
         login_info['role'] = role
-    # --- End of FIX ---
 
     auth_window.login_successful.connect(on_login)
     
